@@ -19,6 +19,95 @@ endif::[]
 image::https://img.shields.io/badge/version-1.0.0-blue[]
 
 [sidcrete]
+== Dokumentation 
+
+=== 2. Aufgabe
+Das Model wurde um die KLasse `UIState` erweitert. Diese Klasse enthält die Information über den aktuell ausgewählten Tab.
+
+[source,java]
+----
+public class Model {
+    public static class UIState {
+        public int selectedTab = 0;
+    }
+    public UIState uiState = new UIState();
+    public Todo[] todos = new Todo[0];
+}
+----
+
+Im ModelStore neben dem HomeScreen auch der TabScreen angezeigt, um zwischen den beiden Screens zu wechseln.
+
+[source,java]
+----
+fun buildContent(activity: ComponentActivity) {
+        activity.enableEdgeToEdge()
+        activity.setContent {
+            val viewModel = store
+                .pipe
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeAsState(initial = Model())
+                .value
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                TabScreen(
+                    viewModel,
+                    store,
+                    toDoService
+                )
+            }
+        }
+    }
+----
+
+Und der TabScreen wurde folgendermaßen implementiert:
+[source,java]
+----
+@Composable
+fun TabScreen(model: Model, store: ModelStore?, todoService: TodoService?) {
+    var uiState = model.uiState
+    val tabIndex = model.uiState.selectedTab
+    val tabs = listOf("Home", "ToDos")
+    Column(modifier = Modifier.fillMaxWidth()) {
+        TabRow(selectedTabIndex = uiState.selectedTab) {
+            tabs.forEachIndexed { index, title ->
+                Tab(text = { Text(title) },
+                    selected = tabIndex == index,
+                    onClick = { store?.selectedTab(index)},
+                    icon = {
+                        when (index) {
+                            0 -> Icon(imageVector = Icons.Default.Home, contentDescription = null)
+                            1 -> BadgedBox(badge = { Badge { Text("${model.todos.size}") }}) {
+                                Icon(Icons.Filled.Favorite, contentDescription = "ToDos")
+                            }
+                            2 -> Icon(imageVector = Icons.Default.Settings, contentDescription = null)
+                        }
+                    }
+                )
+            }
+        }
+        when (tabIndex) {
+            0 -> HomeScreen(model, todoService, store)
+            1 -> Todos(model, store)
+        }
+    }
+}
+----
+
+Es gibt im Frontend nun 2 Screens. 
+
+HomeScreen:
+
+image::homescreen.png[Home Screen Bild,200]
+
+TodosScreen:
+
+image::todoscreen.png[Home Screen Bild,200]
+
+Es können auch Todos auf done gesetzt werden.
+
+[sidcrete]
 == Dokumentation
 
 * Dokumentieren Sie hier grob Ihre durchgeführten Arbeiten, mit
@@ -29,8 +118,6 @@ image::https://img.shields.io/badge/version-1.0.0-blue[]
 ** Ev. Links zu den einzelnen Teilen
 
 IMPORTANT: Ziel ist es, dass die von Ihnen geleistete Arbeit auch "gefunden" und korrekt bewertet wird.
-
-* 2. Aufgabe 
 
 == Aufgabe - Erstellen Sie das Basisprojekt
 
