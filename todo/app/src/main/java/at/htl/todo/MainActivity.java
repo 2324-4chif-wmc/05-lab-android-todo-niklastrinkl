@@ -37,7 +37,6 @@ public class MainActivity extends ComponentActivity {
         var base_url = Config.getProperty("json.placeholder.baseurl");
         Log.i(TAG, "onCreate: " + base_url);
         mainView.buildContent(this);
-        todoService.getAll();
     }
 }
 

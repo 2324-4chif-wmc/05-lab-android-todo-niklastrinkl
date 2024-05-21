@@ -17,4 +17,7 @@ public class ModelStore extends Store<Model>  {
     public void setTodos(Todo[] todos) {
         apply(model -> model.todos = todos);
     }
+    public void selectedTab(int tabIndex) {
+        apply(model -> model.uiState.selectedTab = tabIndex);
+    }
 }
