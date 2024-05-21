@@ -43,7 +43,7 @@ fun TabScreen(model: Model, store: ModelStore?, todoService: TodoService?) {
         }
         when (tabIndex) {
             0 -> HomeScreen(model, todoService, store)
-            1 -> Todos(model)
+            1 -> Todos(model, store)
         }
     }
 }

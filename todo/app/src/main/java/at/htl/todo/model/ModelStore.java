@@ -20,4 +20,7 @@ public class ModelStore extends Store<Model>  {
     public void selectedTab(int tabIndex) {
         apply(model -> model.uiState.selectedTab = tabIndex);
     }
+    public void setToDone(Todo todo, boolean isDone) {
+        apply(model -> model.todos[todo.id.intValue()-1].completed = isDone);
+    }
 }

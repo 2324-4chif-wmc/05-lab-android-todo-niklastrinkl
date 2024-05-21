@@ -15,23 +15,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import at.htl.todo.model.Model
+import at.htl.todo.model.ModelStore
 import at.htl.todo.model.Todo
 
 @Composable
-fun Todos(model: Model, modifier: Modifier = Modifier) {
+fun Todos(model: Model,store: ModelStore?) {
     val todos = model.todos
-    LazyColumn(
-        modifier = modifier.padding(16.dp)
-    ) {
+    LazyColumn{
         items(todos.size) { index ->
-            TodoRow(todo  = todos[index])
+            TodoRow(todo  = todos[index], store = store)
             HorizontalDivider()
         }
     }
 }
 
 @Composable
-fun TodoRow(todo: Todo) {
+fun TodoRow(todo: Todo, store: ModelStore?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -50,7 +49,9 @@ fun TodoRow(todo: Todo) {
         Spacer(modifier = Modifier.weight(1f))
         Checkbox(
             checked = todo.completed,
-            onCheckedChange = { /* Update the completed status of the todo item */ }
+            onCheckedChange = {
+                store?.setToDone(todo, it)
+            }
         )
     }
 }
