@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,23 +16,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import at.htl.post.model.Album
 import at.htl.post.model.Model
+import at.htl.post.model.ModelStore
 import at.htl.post.model.Post
 
 @Composable
-fun Albums(model: Model, modifier: Modifier = Modifier) {
+fun Albums(model: Model, store: ModelStore?, modifier: Modifier = Modifier) {
     val albums = model.albums
-    LazyColumn(
-        modifier = modifier.padding(16.dp)
-    ) {
-        items(albums.size) { index ->
-            AlbumRow(album = albums[index])
-            HorizontalDivider()
+
+    if (model.selectedAlbum != null) {
+        AlbumDetailView(model = model) {
+            store?.setSelectedAlbum(null)
+        }
+    } else {
+        LazyColumn(
+            modifier = modifier.padding(16.dp)
+        ) {
+            items(albums.size) { index ->
+                AlbumRow(album = albums[index], onShowDetails = { store?.setSelectedAlbum(it) })
+                HorizontalDivider()
+            }
         }
     }
 }
 
 @Composable
-fun AlbumRow(album: Album) {
+fun AlbumRow(album: Album, onShowDetails: (Album) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -39,13 +48,12 @@ fun AlbumRow(album: Album) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = album.title,
-            style = MaterialTheme.typography.bodySmall
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
             text = album.id.toString(),
             style = MaterialTheme.typography.bodySmall
         )
+        Spacer(modifier = Modifier.width(8.dp))
+        Button(onClick = { onShowDetails(album) }) {
+            Text(text = "Show Details")
+        }
     }
 }

@@ -52,7 +52,7 @@ fun TabScreen(model: Model, store: ModelStore?, postService: PostService?, album
         when (tabIndex) {
             0 -> HomeScreen(model, postService, albumService, store)
             1 -> Posts(model)
-            2 -> Albums(model)
+            2 -> Albums(model, store)
         }
     }
 }

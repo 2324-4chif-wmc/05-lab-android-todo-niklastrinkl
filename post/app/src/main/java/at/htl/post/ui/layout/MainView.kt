@@ -28,6 +28,7 @@ import at.htl.post.model.AlbumService
 import at.htl.post.model.Model
 import at.htl.post.model.ModelStore
 import at.htl.post.model.PostService
+import at.htl.post.ui.layout.InputForm
 import at.htl.post.ui.layout.TabScreen
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
@@ -71,8 +72,8 @@ class MainView @Inject constructor() {
 fun HomeScreen(model: Model, postService: PostService?, albumService: AlbumService?, store: ModelStore?) {
     val posts = model.posts
     val albums = model.albums
-    Column {
-        Row {
+    Column (modifier = Modifier.fillMaxSize()) {
+        Row(Modifier.align(Alignment.CenterHorizontally)) {
             Text(text = "Welcome to HomeScreen", fontSize = 20.sp)
         }
         Row(Modifier.align(Alignment.CenterHorizontally)) {
@@ -91,6 +92,13 @@ fun HomeScreen(model: Model, postService: PostService?, albumService: AlbumServi
             Button(modifier = Modifier.padding(16.dp),
                 onClick = { albumService?.getAll() }) {
                 Text("load all Albums now")
+            }
+        }
+        Row(Modifier.align(Alignment.CenterHorizontally)) {
+            if (store != null) {
+                if (albumService != null) {
+                    InputForm(store = store, albumService = albumService)
+                }
             }
         }
     }

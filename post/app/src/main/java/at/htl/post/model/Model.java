@@ -9,4 +9,6 @@ public class Model {
     }
 
     public UIState uiState = new UIState();
+
+    public Album selectedAlbum = null;
 }

@@ -254,16 +254,7 @@ Postscreen:
 image::postview.png[Home Screen Bild,200]
 
 [sidcrete]
-== Dokumentation
 
-* Dokumentieren Sie hier grob Ihre durchgeführten Arbeiten, mit
-
-** Datenmodell
-** Screenshots und
-** textuelle Übersicht über die erledigten Aufgaben.
-** Ev. Links zu den einzelnen Teilen
-
-IMPORTANT: Ziel ist es, dass die von Ihnen geleistete Arbeit auch "gefunden" und korrekt bewertet wird.
 
 == Aufgabe - Erstellen Sie das Basisprojekt
 

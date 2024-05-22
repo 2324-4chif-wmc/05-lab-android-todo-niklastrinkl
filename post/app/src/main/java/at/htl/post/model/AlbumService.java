@@ -33,4 +33,17 @@ public class AlbumService {
                     return null;
                 });
     }
+
+    public void createAlbum(Album album) {
+        CompletableFuture
+                .supplyAsync(() -> albumClient.create(album))
+                .thenAccept(createdAlbum -> {
+                    store.addAlbum(createdAlbum.title);
+                })
+                .exceptionally((e) -> {
+                    Log.e(TAG, "Error creating album", e);
+                    return null;
+                });
+
+    }
 }

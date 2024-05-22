@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.activity.ComponentActivity;
 import javax.inject.Inject;
 
+import at.htl.post.model.AlbumService;
 import at.htl.post.model.PostService;
 import at.htl.post.util.Config;
 import at.htl.todo.ui.layout.MainView;
@@ -25,6 +26,9 @@ public class MainActivity extends ComponentActivity {
     @Inject
     PostService postService;
 
+    @Inject
+    AlbumService albumService;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,5 +36,6 @@ public class MainActivity extends ComponentActivity {
         var base_url = Config.getProperty("json.placeholder.baseurl");
         Log.i(TAG, "onCreate: " + base_url);
         mainView.buildContent(this);
+        albumService.getAll();
     }
 }
