@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-@Deprecated
+
 public class Config {
     private static Properties properties;
 
