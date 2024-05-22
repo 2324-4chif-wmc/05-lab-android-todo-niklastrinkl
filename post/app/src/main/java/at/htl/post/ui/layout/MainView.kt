@@ -46,7 +46,6 @@ class MainView @Inject constructor() {
     lateinit var albumService: AlbumService
 
     fun buildContent(activity: ComponentActivity) {
-        activity.enableEdgeToEdge()
         activity.setContent {
             val viewModel = store
                 .pipe

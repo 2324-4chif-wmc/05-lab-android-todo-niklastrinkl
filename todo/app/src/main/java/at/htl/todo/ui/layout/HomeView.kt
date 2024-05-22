@@ -43,7 +43,6 @@ class MainView @Inject constructor() {
     lateinit var toDoService: TodoService
 
     fun buildContent(activity: ComponentActivity) {
-        activity.enableEdgeToEdge()
         activity.setContent {
             val viewModel = store
                 .pipe

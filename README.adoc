@@ -107,6 +107,152 @@ image::todoscreen.png[Home Screen Bild,200]
 
 Es können auch Todos auf done gesetzt werden.
 
+=== 3. Aufgabe
+Bei der 3. Aufgabe wurde ein neues Android Projekt mit dem Tutorial aufgesetzt. Es wurden 2 Entitäten verwendet: Post und Album von jsonplaceholder.com 
+
+Post:
+[source,java]
+----
+public class Post {
+    public Long userId;
+    public Long id;
+    public String title;
+    public String body;
+
+    public Post() {
+    }
+
+    public Post(Long userId, Long id, String title, String body) {
+        this.userId = userId;
+        this.id = id;
+        this.title = title;
+        this.body = body;
+    }
+}
+----
+
+Album:
+[source,java]
+----
+public class Album {
+    public Long userId;
+    public Long id;
+    public String title;
+
+    public Album() {
+    }
+
+    public Album(Long userId, Long id, String title) {
+        this.userId = userId;
+        this.id = id;
+        this.title = title;
+    }
+}
+----
+
+Das Model sieht deshalb folgendermaßen aus:
+[source,java]
+----
+public class Model {
+    public Post[] posts = new Post[0];
+    public Album[] albums = new Album[0];
+
+    public static class UIState {
+        public int selectedTab = 0;
+    }
+
+    public UIState uiState = new UIState();
+}
+----
+
+Daraus ergibt sich folgende Dateistruktur: 
+
+image::struktur_post.png[Home Screen Bild,200]
+
+Die Posts und Albums werden auf zwei verschiedenen Screens angezeigt, die per Navbar geswitched werden können. Der HomeScreen wurde so geändert, dass 2 Buttons auf dem Homescreen sind, womit man alle posts bzw. alle albums laden kann. 
+
+[source,java]
+----
+@Composable
+fun HomeScreen(model: Model, postService: PostService?, albumService: AlbumService?, store: ModelStore?) {
+    val posts = model.posts
+    val albums = model.albums
+    Column {
+        Row {
+            Text(text = "Welcome to HomeScreen", fontSize = 20.sp)
+        }
+        Row(Modifier.align(Alignment.CenterHorizontally)) {
+            Text("${posts.size} Posts have been loaded")
+        }
+        Row(Modifier.align(Alignment.CenterHorizontally)) {
+            Button(modifier = Modifier.padding(16.dp),
+                onClick = { postService?.getAll() }) {
+                Text("load all Posts now")
+            }
+        }
+        Row(Modifier.align(Alignment.CenterHorizontally)) {
+            Text("${albums.size} Albums have been loaded")
+        }
+        Row(Modifier.align(Alignment.CenterHorizontally)) {
+            Button(modifier = Modifier.padding(16.dp),
+                onClick = { albumService?.getAll() }) {
+                Text("load all Albums now")
+            }
+        }
+    }
+}
+----
+
+Homescreen:
+
+image::homescreen_posts.png[Home Screen Bild,200]
+
+
+Die AlbumView und PostView sehen relativ gleich aus: 
+[source,java]
+----
+@Composable
+fun Albums(model: Model, modifier: Modifier = Modifier) {
+    val albums = model.albums
+    LazyColumn(
+        modifier = modifier.padding(16.dp)
+    ) {
+        items(albums.size) { index ->
+            AlbumRow(album = albums[index])
+            HorizontalDivider()
+        }
+    }
+}
+
+@Composable
+fun AlbumRow(album: Album) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = album.title,
+            style = MaterialTheme.typography.bodySmall
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(
+            text = album.id.toString(),
+            style = MaterialTheme.typography.bodySmall
+        )
+    }
+}
+----
+
+Albumscreen: 
+
+image::albumview.png[Home Screen Bild,200]
+
+Postscreen:
+
+image::postview.png[Home Screen Bild,200]
+
 [sidcrete]
 == Dokumentation
 
