@@ -38,7 +38,7 @@ public class AlbumService {
         CompletableFuture
                 .supplyAsync(() -> albumClient.create(album))
                 .thenAccept(createdAlbum -> {
-                    store.addAlbum(createdAlbum.title);
+                    store.addAlbum(createdAlbum);
                 })
                 .exceptionally((e) -> {
                     Log.e(TAG, "Error creating album", e);

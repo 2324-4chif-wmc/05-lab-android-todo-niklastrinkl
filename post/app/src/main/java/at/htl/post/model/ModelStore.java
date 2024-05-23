@@ -29,9 +29,9 @@ public class ModelStore extends Store<Model> {
         apply(model -> model.uiState.selectedTab = tabIndex);
     }
 
-    public void addAlbum(String title) {
+    public void addAlbum(Album album) {
         apply(model -> {
-            var newAlbum = new Album(1L, Arrays.stream(model.albums).max(Comparator.comparingLong(o -> o.id)).get().id +1, title);
+            var newAlbum = new Album(album.id, Arrays.stream(model.albums).max(Comparator.comparingLong(o -> o.id)).get().id +1, album.title);
             var newAlbums = Arrays.copyOf(model.albums, model.albums.length +1);
             newAlbums[newAlbums.length -1] = newAlbum;
 
